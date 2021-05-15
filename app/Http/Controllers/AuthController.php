@@ -103,22 +103,7 @@ class AuthController extends Controller
 				} else if ($user->is_active == false && $user->is_suspended == true) {
 					return self::returnFailed("Sorry, your account has been suspended");
 				}
-				// $payload = auth()->payload()("type");
-				// $total_products = $user->business_profile->products->count();
-				$user["total_products"]	= $user->business_profile ? $user->business_profile->products->count() : 0;
-				$user["total_orders"]	= $user->orders->count();
-				$user["total_sales"]	= $user->business_profile ? $user->business_profile->sales->count() : 0;
-				$user["new_sales"]		= $user->business_profile ? $user->business_profile->sales()->where("is_new", true)->count() : 0;
 
-				if ($user->savings["open"] != null) {
-					$totalSavings = $user->savings["open"]->reduce(function($sum, $saving){
-						return $sum + intval($saving->total_amount_saved);
-					}, 0);
-					$user["total_savings"]	= $totalSavings;
-				} else {
-					$user["total_savings"]	= 0;
-				}
-				// $user["total_savings"]	= array_sum(array_keys($user->savings["open"], "total_amount_saved"));
 				return self::returnSuccess(["token" => $token, "user" => $user]);
 			}
 

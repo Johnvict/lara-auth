@@ -63,4 +63,20 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
             $router->post('/update', 'AuthController@updateUser');
         });
     });
+
+
+    // ? GENERAL AUTH ROUTES
+    $router->group(['prefix' => 'auth'], function () use ($router) {
+        $router->group(['middleware' => 'user'], function () use ($router) {
+            $router->post('/change-password', 'AuthController@changePassword');
+            $router->get('/refresh', 'AuthController@refreshToken');
+        });
+
+        $router->get('/logout', 'AuthController@logout');
+
+        // ? OTHER AUTH-RELATED ROUTES
+        $router->post('/verify-account', 'AuthController@verifyAccount');
+        $router->get('/reset-password/{phoneNumber}', 'AuthController@resetPassword');
+        $router->post('/new-password', 'AuthController@newPassword');
+    });
 });

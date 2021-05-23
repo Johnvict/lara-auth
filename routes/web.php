@@ -67,7 +67,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 
     // ? GENERAL AUTH ROUTES
     $router->group(['prefix' => 'auth'], function () use ($router) {
-        $router->group(['middleware' => 'user'], function () use ($router) {
+        $router->group(['middleware' => ['auth']], function () use ($router) {
             $router->post('/change-password', 'AuthController@changePassword');
             $router->get('/refresh', 'AuthController@refreshToken');
         });

@@ -90,8 +90,6 @@ class AdminController extends Controller
 		])->first();
 
 		if ($user) {
-			$user->savings	= $user->savings;
-			$user->loans	= $user->loans;
 			return self::returnSuccess($user);
 		}
 		return self::returnNotFound("there is no user found with this detail");

@@ -92,8 +92,8 @@ class AuthController extends Controller
 		$validationError = self::validateRequest($request, self::$authValidationRule);
 		if ($validationError != null) return self::returnFailed($validationError);
 
-		// $token = Auth::attempt($data);
-		$token = auth()->claims(['type' => 'user'])->attempt($data);
+		$token = Auth::attempt($data);
+		// $token = auth()->claims(['type' => 'user'])->attempt($data);
 		if ($token) {
 			$token = self::respondWithToken($token);
 			$user = Auth::user();
@@ -141,9 +141,9 @@ class AuthController extends Controller
 		$validationError = self::validateRequest($request, self::$authValidationRule);
 		if ($validationError != null) return self::returnFailed($validationError);
 
-		// $token = Auth::attempt($data);
-		$token = auth()->claims(['type' => 'admin'])->attempt($data);
-		$tokenSuper = auth()->claims(['type' => 'super'])->attempt($data);
+		$token = $tokenSuper = Auth::attempt($data);
+		// $token = auth()->claims(['type' => 'admin'])->attempt($data);
+		// $tokenSuper = auth()->claims(['type' => 'super'])->attempt($data);
 
 		if ($token || $tokenSuper) {
 			$user = Auth::user();
@@ -236,8 +236,8 @@ class AuthController extends Controller
     private static function sendSMS($phone, $code) {
         $username    =  env("SMS_USERNAME");
         $apikey      =  env("SMS_KEY");
-        $sender      =  "KOWGO";
-        $messagetext = "Kowgo: Your verification code is $code. Use it to complete your registration on Kowgo. Keep safe and do not disclose to anyone";
+        $sender      =  "LARA-AUTH";
+        $messagetext = "LaraAuth: Your verification code is $code. Use it to complete your registration on LaraAuth. Keep safe and do not disclose to anyone";
         $flash       =  "0";
         $url         = env("SMS_API_URL");
         $phoneForSMS = "234" . substr($phone, 1);

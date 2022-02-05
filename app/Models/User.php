@@ -19,15 +19,15 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
      * @var array
      */
     protected $fillable = [
-		'name',
-		'type',
-		'is_active',
-		'is_suspended',
-		'phone',
-		'email',
-		'password',
-		'password_reset_count',
-		'password_reset_at'
+        'name',
+        'type',
+        'is_active',
+        'is_suspended',
+        'phone',
+        'email',
+        'password',
+        'password_reset_count',
+        'password_reset_at'
     ];
 
     /**
@@ -36,24 +36,26 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
      * @var array
      */
     protected $hidden = [
-		'password',
-		'remember_token'
-	];
+        'password',
+        'remember_token'
+    ];
 
-	public function getJWTIdentifier()
+    public function getJWTIdentifier()
     {
         return $this->getKey();
     }
 
     public function getJWTCustomClaims()
     {
-        return [];
-	}
+        return $this->type == "user" ? ["type" => "user"] : ($this->type == "admin" ? ["type" => "admin"] : ["type" => "super"]);
+    }
 
-	public function passwordResetCode() {
-		return $this->hasOne(PasswordResetCode::class);
-	}
-	public function activationCode() {
-		return $this->hasOne(ActivationCode::class);
-	}
+    public function passwordResetCode()
+    {
+        return $this->hasOne(PasswordResetCode::class);
+    }
+    public function activationCode()
+    {
+        return $this->hasOne(ActivationCode::class);
+    }
 }
